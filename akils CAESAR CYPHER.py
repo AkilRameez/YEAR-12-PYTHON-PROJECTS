@@ -66,7 +66,7 @@ def vernam(key,text):
 
 #MY OWN CYPHUR
 
-def akils_cyphur(text):
+def akils_cypher(text):
     text = list(text)
     length = len(text)
     length=length - 1
@@ -79,7 +79,7 @@ def akils_cyphur(text):
 
 
 #akil = input("What is your input?")
-#print(akils_cyphur(akil))
+#print(akils_cypher(akil))
 
 
 
@@ -117,3 +117,4 @@ output_box = scrolledtext.ScrolledText(window, width=70, height=5, font=("Arial"
 output_box.pack(pady=5)
 
 #GEORGE
+
