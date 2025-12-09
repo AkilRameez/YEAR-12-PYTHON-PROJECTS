@@ -115,3 +115,5 @@ tk.Button(button_frame, text="Akils Cipher", width=20,
 tk.Label(window, text="Encrypted Output:", font=("Arial", 20)).pack()
 output_box = scrolledtext.ScrolledText(window, width=70, height=5, font=("Arial", 10))
 output_box.pack(pady=5)
+
+#GEORGE
