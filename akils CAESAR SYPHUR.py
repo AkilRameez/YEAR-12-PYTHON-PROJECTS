@@ -1,5 +1,5 @@
 import tkinter as tk
-from tkinter import scrolledtext
+from tkinter import ttk
 
 
 def caesar(key,text):
@@ -18,9 +18,14 @@ def caesar(key,text):
     cypher = ""
 
     for i in text:
-        index = fullalphabet.index(i)
-        letter = new_alphabet[index]
-        cypher = f"{cypher}{letter}"
+        try:
+            index = fullalphabet.index(i)
+            letter = new_alphabet[index]
+            cypher = f"{cypher}{letter}"
+        except: 
+            pass
+
+    
 
     return cypher      
 def alphabet(direction,magnitude):
@@ -39,11 +44,14 @@ def alphabet(direction,magnitude):
 
     return temp
 
-#START CAESAR CYPHER   
-#userkey = input("How Do you want too shift your text.    L/R .....")
-#usertext = input("What text are you encrypting")
-#finalencryptedtext = caesar(userkey,usertext)
-#print(finalencryptedtext)
+def startcaesar(): 
+    userkey = input("How Do you want too shift your text.    L/R .....")
+    usertext = input("What text are you encrypting")
+    finalencryptedtext = caesar(userkey,usertext)
+    print(finalencryptedtext)
+
+    caesar(userkey,usertext)
+
 
 
 def vernam(key,text):
@@ -82,36 +90,101 @@ def akils_cyphur(text):
 #print(akils_cyphur(akil))
 
 
+class main(tk.Tk):
+    def __init__(self):
+        super().__init__()
 
-window = tk.Tk() #CREATES ROOT APPLICATION WINDOW
-window.title("Encryption Tool") #CREATES TITLE FOR WINDOW
-window.geometry("600x400") #SIZES WINDOW
-window.resizable(False, False) #MAKES IT UNSIZEABLE
+        self.rowconfigure(0, weight= 1)
+        self.columnconfigure(0, weight= 1)
 
-tk.Label(window, text="Enter text to encrypt:", font=("Arial", 20)).pack()
-input_box = scrolledtext.ScrolledText(window, width=70, height=5, font=("Arial", 10))
-input_box.pack(pady=5)
+        #Renames,Sizes And Creates Window
+        self.title('All Of Akils Cyphurs')
+        self.geometry('1000x300')
+    
+
+        self.menu = Menu(self)
+
+        #Run Program
+        self.mainloop()
+
+    
+
+class Menu(ttk.Frame):
+    def __init__(self,parent):
+        super().__init__(parent)
+
+        
+        self.grid(row = 0, column= 0, rowspan= 1 ,columnspan= 1,sticky= 'nsew')
+        self.create_widgets()
+
+    def create_widgets(self):
+        self.columnconfigure((0,1,2), weight = 1)
+        self.rowconfigure((0,1,2,3,4), weight = 1)
+
+        self.mainbackround = tk.Label(self,text = "Akils Cyphurs!", background = 'Dark Slate Blue', fg= 'black', font= ("Helvetica",40,"bold",))
+
+        #CREATE BUTTONS 
+        self.VernamButton1 =  tk.Button(self, text = 'Vernam Cyphur',font= ("Helvetica",40,"bold",))
+        self.CaesurButton1 =  tk.Button(self, text = 'Caesar Cyphur',font= ("Helvetica",40,"bold",), command= self.CaesarCypher)
+        self.AkilButton1 =  tk.Button(self, text = 'Akil Cyphur', font= ("Helvetica",40,"bold",))
+
+        #CREATE TEXT BOX
+        self.InputBox = tk.Text(self, height=10, width=50)
+        self.InputBox.grid(row=0, column=0, padx= 10 , pady= 10, sticky="nsew")
+
+        self.KeyBox = tk.Text(self, height=10, width=50)
+        self.KeyBox.grid(row=0, column= 2, padx= 10 , pady= 10, sticky="nsew")
+
+        self.Outputbox = tk.Text(self, height=10, width=50)
+        self.Outputbox.grid(row=0, column=3, padx= 10 , pady= 10, sticky="nsew")
+
+        #CREATE TEXT 
+        self.InputText = tk.Label(self,text = 'Input', fg = 'white',font= ("Helvetica",25,"bold"))
+        self.InputText.grid(row=2, column=0, padx= 10 , pady= 10, sticky="nsew")
+
+        self.KeyText = tk.Label(self,text = 'Key', fg = 'white',font= ("Helvetica",25,"bold"))
+        self.KeyText.grid(row=2, column=0, padx= 10 , pady= 10, sticky="nsew")
+
+        self.OutputText = tk.Label(self,text = 'Output', fg = 'white',font= ("Helvetica",25,"bold"))
+        self.OutputText.grid(row=2, column=0, padx= 10 , pady= 10, sticky="nsew")
+
+        self.create_layout()
+
+    def create_layout(self):
+        self.mainbackround.grid(row = 0, column= 0, rowspan= 1 ,columnspan= 3,sticky= 'nsew')
+
+        #PLACES GRID AND MAKES VISIBLE
+        self.VernamButton1.grid(row= 1, column= 0, sticky= 'nswe')
+        self.CaesurButton1.grid(row= 1, column= 1, sticky= 'nswe')
+        self.AkilButton1.grid(row= 1, column= 2, sticky= 'nswe')
 
 
+        #Places Text Box
+        self.InputText.grid(row= 2, column= 0, sticky= 'se')
+        self.InputBox.grid(row= 2,column= 0 , sticky= 'nswe' )
 
-button_frame = tk.Frame(window)
-button_frame.pack(pady=10)
+        self.KeyText.grid(row= 2, column= 1, sticky= 'se')
+        self.KeyBox.grid(row= 2,column= 1 , sticky= 'nswe' )
 
-tk.Label(window, text="KEY: (IF APPLICABLE)", font=("Arial", 20)).pack()
-output_box = scrolledtext.ScrolledText(window, width=70, height=5, font=("Arial", 10))
-output_box.pack(pady=5)
+        self.Outputbox.grid(row = 2, column= 2 ,sticky= 'nswe')
+        self.OutputText.grid(row= 2,column= 2,sticky= 'se')
 
-tk.Button(button_frame, text="Caesar Cipher", width=20,
-          command=lambda: run_encryption("caesar")).pack(side="left", padx=5)
+    def CaesarCypher(self):
+        """GET USER KEY, GET USER INPUT, AND OUTPUT THE CYPHER"""
 
-tk.Button(button_frame, text="Vernam Cipher", width=20,
-          command=lambda: run_encryption("Vernam")).pack(side="left", padx=5)
+        key = self.KeyBox.get(0.0, 'end')
+        plain = self.InputBox.get(0.0,'end')
+        cyphertext = caesar(key,plain)
+        self.Outputbox.delete(0.0, 'end')
+        self.Outputbox.insert(0.0, cyphertext)
+        
+    def VernamCypher(self):
+        """GET USER KEY, USER INPUT, AND OUTFIT THE VERNAMH"""
+        pass
+    def AkilsCypher(self):
+        """AKILS CYPHER TAKES AN INPUT RETURNS AN OUTPUT"""
+        pass
 
-tk.Button(button_frame, text="Akils Cipher", width=20,
-          command=lambda: run_encryption("Akils")).pack(side="left", padx=5)
-
-
-
-tk.Label(window, text="Encrypted Output:", font=("Arial", 20)).pack()
-output_box = scrolledtext.ScrolledText(window, width=70, height=5, font=("Arial", 10))
-output_box.pack(pady=5)
+    ''''''
+        
+main()
