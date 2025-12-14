@@ -54,21 +54,31 @@ def startcaesar():
 
 
 
-def vernam(key,text):
-    fullalphabet = list('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;[]{}@~!£$%^&*()123456789-=+_/`¬')
+def vernam(key, text):
+    fullalphabet = list(
+        'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;[]{}@~!£$%^&*()123456789-=+_/`¬'
+    )
+
+    result = ""
+
+    for i in range(len(text)):
+        text_char = text[i]
+        key_char = key[i % len(key)]
+
+        if text_char not in fullalphabet or key_char not in fullalphabet:
+            result += text_char
+            continue
+
+        text_index = fullalphabet.index(text_char)
+        key_index = fullalphabet.index(key_char)
+
     
-    for index in len(text):
-        keyindex = index % len(key)
-        keyletter = key[keyindex] 
-        keyletter = fullalphabet.index(keyletter)
+        cipher_index = text_index ^ key_index
 
-        keyvalue = "{0:8b]".format(keyletter)
+        result += fullalphabet[cipher_index % len(fullalphabet)]
 
-        textletter = text[index]
-        textletter = fullalphabet.index(textletter)
+    return result
 
-        textvalue = "0:8b".format(textletter)
-    return
 
 
 
@@ -121,12 +131,16 @@ class Menu(ttk.Frame):
         self.columnconfigure((0,1,2), weight = 1)
         self.rowconfigure((0,1,2,3,4), weight = 1)
 
-        self.mainbackround = tk.Label(self,text = "Akils Cyphurs!", background = 'Dark Slate Blue', fg= 'black', font= ("Helvetica",40,"bold",))
+        self.mainbackround = tk.Label(self,text = "Akils Cyphers!", background = 'Dark Slate Blue', fg= 'black', font= ("Helvetica",40,"bold",))
 
         #CREATE BUTTONS 
-        self.VernamButton1 =  tk.Button(self, text = 'Vernam Cyphur',font= ("Helvetica",40,"bold",))
-        self.CaesurButton1 =  tk.Button(self, text = 'Caesar Cyphur',font= ("Helvetica",40,"bold",), command= self.CaesarCypher)
-        self.AkilButton1 =  tk.Button(self, text = 'Akil Cyphur', font= ("Helvetica",40,"bold",))
+        self.VernamButton1 =  tk.Button(self, text = 'Vernam Cypher',font= ("Helvetica",40,"bold",),command= self.VernamCypher)
+        self.CaesurButton1 =  tk.Button(self, text = 'Caesar Cypher',font= ("Helvetica",40,"bold",), command= self.CaesarCypher)
+        self.AkilButton1 =  tk.Button(self, text = 'Akil Cypher', font= ("Helvetica",40,"bold",), command= self.AkilsCypher)
+
+        self.InfoButton1 =  tk.Button(self, text = 'INFO', font= ("Helvetica",20,"bold",), command= self.infobutton )
+        self.F_AButton1 =  tk.Button(self, text = 'Frequency Analysis', font= ("Helvetica",20,"bold",), )
+        self.AsymButton1 =  tk.Button(self, text = 'ASYM/SYM', font= ("Helvetica",20,"bold",), )
 
         #CREATE TEXT BOX
         self.InputBox = tk.Text(self, height=10, width=50)
@@ -154,9 +168,17 @@ class Menu(ttk.Frame):
         self.mainbackround.grid(row = 0, column= 0, rowspan= 1 ,columnspan= 3,sticky= 'nsew')
 
         #PLACES GRID AND MAKES VISIBLE
+
+        #Cypher Buttons
         self.VernamButton1.grid(row= 1, column= 0, sticky= 'nswe')
         self.CaesurButton1.grid(row= 1, column= 1, sticky= 'nswe')
         self.AkilButton1.grid(row= 1, column= 2, sticky= 'nswe')
+        
+        #Creates Info,Asym,Frequency Graph Buttons
+        self.InfoButton1.grid(row=3, column=0, padx= 5,pady= 5, sticky= 'sw')
+        self.F_AButton1.grid(row=3,column=0,padx= 5 ,pady= 5, sticky= 'e')
+        self.AsymButton1.grid(row=3,column=1,padx= 5, pady= 5, sticky= 'sw')
+        
 
 
         #Places Text Box
@@ -169,6 +191,21 @@ class Menu(ttk.Frame):
         self.Outputbox.grid(row = 2, column= 2 ,sticky= 'nswe')
         self.OutputText.grid(row= 2,column= 2,sticky= 'se')
 
+    def infobutton(self):
+        
+
+        info = tk.Toplevel(self)
+        info.title("Information")
+        info.geometry("500x350")
+        info.resizable(False, False)
+
+        header = tk.Label(info,text="Information",font=("Helvetica", 35, "bold"),bg="Dark Slate Blue",fg="Black",pady=15)
+            
+        header.pack(fill="x")  # makes it act like a header bar
+
+
+
+
     def CaesarCypher(self):
         """GET USER KEY, GET USER INPUT, AND OUTPUT THE CYPHER"""
 
@@ -180,11 +217,25 @@ class Menu(ttk.Frame):
         
     def VernamCypher(self):
         """GET USER KEY, USER INPUT, AND OUTFIT THE VERNAMH"""
-        pass
-    def AkilsCypher(self):
-        """AKILS CYPHER TAKES AN INPUT RETURNS AN OUTPUT"""
-        pass
 
-    ''''''
+        key = self.KeyBox.get(0.0, 'end')
+        plain = self.InputBox.get(0.0,'end')
+        cyphertext = vernam(key,plain)
+        self.Outputbox.delete(0.0, 'end')
+        self.Outputbox.insert(0.0, cyphertext)
+
+        pass
+    def AkilsCypher(self):  
+        plain = self.InputBox.get("1.0", "end-1c")
+        cyphertext = akils_cyphur(plain)
+        self.Outputbox.delete("1.0", "end")
+        self.Outputbox.insert("1.0", cyphertext)
+
+
+
+        pass
+    
+
+
         
 main()
