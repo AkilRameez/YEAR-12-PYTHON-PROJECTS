@@ -139,8 +139,8 @@ class Menu(ttk.Frame):
         self.AkilButton1 =  tk.Button(self, text = 'Akil Cypher', font= ("Helvetica",40,"bold",), command= self.AkilsCypher)
 
         self.InfoButton1 =  tk.Button(self, text = 'INFO', font= ("Helvetica",20,"bold",), command= self.infobutton )
-        self.F_AButton1 =  tk.Button(self, text = 'Frequency Analysis', font= ("Helvetica",20,"bold",), )
-        self.AsymButton1 =  tk.Button(self, text = 'ASYM/SYM', font= ("Helvetica",20,"bold",), )
+        self.F_AButton1 =  tk.Button(self, text = 'Frequency Analysis', font= ("Helvetica",20,"bold"),command= self.fabutton )
+        self.AsymButton1 =  tk.Button(self, text = 'ASYM/SYM', font= ("Helvetica",20,"bold",),command=self.asymsym )
 
         #CREATE TEXT BOX
         self.InputBox = tk.Text(self, height=10, width=50)
@@ -192,16 +192,40 @@ class Menu(ttk.Frame):
         self.OutputText.grid(row= 2,column= 2,sticky= 'se')
 
     def infobutton(self):
-        
+    
+            info = tk.Toplevel(self)
+            info.title("Information")
+            info.geometry("500x450")
+            info.resizable(False, False)
+
+            header = tk.Label(info, text="Information", font=("Helvetica", 35, "bold"), bg="Dark Slate Blue", fg="Black",pady=15)
+            header.pack(fill="x")
+
+            body = tk.Label(info,text=" My Three Different Ciphers\n\nAkils Cipher, Caesar Cipher, and the Vernam Cipher\n\nAkils Cipher:\nThis cipher is the simplest out of all of them.\nIt works by reversing the inputted text.\nBecause of this, it does not require a key.\n\nCaesar Cipher:\nThis cipher works by shifting each letter in the text by a fixed number.\nFor example, a shift of 3 turns A into D.\nIt requires a key to decide how many letters to shift.\n\nVernam Cipher:\nThis cipher combines the text with a key to create encrypted data.\nEach letter is changed using the corresponding letter from the key.\nIt is very secure when the key is the same length as the message.\n",bg="Dark Slate Blue",fg="black",font=("Helvetica", 14, "bold"),wraplength=450,justify="left",padx=20,pady=20)
+            body.pack(fill="both", expand=True)
+
+    def fabutton(self):
+        info = tk.Toplevel(self)
+        info.title("Frequency Analysis")
+        info.geometry("500x350")
+        info.resizable(False, False)
+        header = tk.Label(info,text="Frequency Analysis",font=("Helvetica", 35, "bold"),bg="Dark Slate Blue",fg="Black",pady=15)           
+        header.pack(fill="x")  
+
+    def asymsym(self):
 
         info = tk.Toplevel(self)
         info.title("Information")
         info.geometry("500x350")
         info.resizable(False, False)
 
-        header = tk.Label(info,text="Information",font=("Helvetica", 35, "bold"),bg="Dark Slate Blue",fg="Black",pady=15)
-            
-        header.pack(fill="x")  # makes it act like a header bar
+        header = tk.Label(info, text="Difference Between Asym/Sym Cyphers", font=("Helvetica", 20, "bold"), bg="Dark Slate Blue", fg="Black",pady=15)
+        header.pack(fill="x")
+
+        body = tk.Label(info,text="Symmetric ciphers use the same key to encrypt and decrypt data.\nThey are fast and efficient but require securely sharing the key.\nExamples include AES and DES.\n\nAsymmetric ciphers use two keys: a public key and a private key.\nThe public key encrypts data while the private key decrypts it.\nThey are more secure for key exchange but slower than symmetric ciphers.\nExamples include RSA and ECC.",bg="Dark Slate Blue",fg="black",font=("Helvetica", 15,"bold" ),wraplength=450,justify="left",padx=20,pady=20)
+        body.pack(fill="both", expand=True)
+        
+    
 
 
 
