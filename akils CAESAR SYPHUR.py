@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 
-import matplotlib
+from matplotlib import pyplot as plt
 
 
 def caesar(key,text):
@@ -125,6 +125,7 @@ class Menu(ttk.Frame):
     def __init__(self,parent):
         super().__init__(parent)
 
+
         
         self.grid(row = 0, column= 0, rowspan= 1 ,columnspan= 1,sticky= 'nsew')
         self.create_widgets()
@@ -141,7 +142,7 @@ class Menu(ttk.Frame):
         self.AkilButton1 =  tk.Button(self, text = 'Akil Cypher', font= ("Helvetica",40,"bold",), command= self.AkilsCypher)
 
         self.InfoButton1 =  tk.Button(self, text = 'INFO', font= ("Helvetica",20,"bold",), command= self.infobutton )
-        self.F_AButton1 =  tk.Button(self, text = 'Frequency Analysis', font= ("Helvetica",20,"bold"),command= self.fabutton )
+        self.F_AButton1 =  tk.Button(self, text = 'Frequency Analysis', font= ("Helvetica",20,"bold"),command= self.displayfreqanalysis )
         self.AsymButton1 =  tk.Button(self, text = 'ASYM/SYM', font= ("Helvetica",20,"bold",),command=self.asymsym )
 
         #CREATE TEXT BOX
@@ -206,16 +207,6 @@ class Menu(ttk.Frame):
             body = tk.Label(info,text=" My Three Different Ciphers\n\nAkils Cipher, Caesar Cipher, and the Vernam Cipher\n\nAkils Cipher:\nThis cipher is the simplest out of all of them.\nIt works by reversing the inputted text.\nBecause of this, it does not require a key.\n\nCaesar Cipher:\nThis cipher works by shifting each letter in the text by a fixed number.\nFor example, a shift of 3 turns A into D.\nIt requires a key to decide how many letters to shift.\n\nVernam Cipher:\nThis cipher combines the text with a key to create encrypted data.\nEach letter is changed using the corresponding letter from the key.\nIt is very secure when the key is the same length as the message.\n",bg="Dark Slate Blue",fg="black",font=("Helvetica", 14, "bold"),wraplength=450,justify="left",padx=20,pady=20)
             body.pack(fill="both", expand=True)
 
-    def fabutton(self):
-        info = tk.Toplevel(self)
-        info.title("Frequency Analysis")
-        info.geometry("500x350")
-        info.resizable(False, False)
-        header = tk.Label(info,text="Frequency Analysis",font=("Helvetica", 35, "bold"),bg="Dark Slate Blue",fg="Black",pady=15)           
-        header.pack(fill="x") 
-
-        self.displayfreqanalysis()
-
     def asymsym(self):
 
         info = tk.Toplevel(self)
@@ -274,8 +265,8 @@ class Menu(ttk.Frame):
             except:
                 pass
         
-        matplotlib.pyplot.bar(x,y)
-        pyplot.show()
+        plt.bar(x,y)
+        plt.show()
 
 
 
