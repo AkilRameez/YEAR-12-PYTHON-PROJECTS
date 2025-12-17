@@ -1,6 +1,8 @@
 import tkinter as tk
 from tkinter import ttk
 
+import matplotlib
+
 
 def caesar(key,text):
     fullalphabet = list('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;[]{}@~!£$%^&*()123456789-=+_/`¬')
@@ -210,7 +212,9 @@ class Menu(ttk.Frame):
         info.geometry("500x350")
         info.resizable(False, False)
         header = tk.Label(info,text="Frequency Analysis",font=("Helvetica", 35, "bold"),bg="Dark Slate Blue",fg="Black",pady=15)           
-        header.pack(fill="x")  
+        header.pack(fill="x") 
+
+        self.displayfreqanalysis()
 
     def asymsym(self):
 
@@ -248,16 +252,43 @@ class Menu(ttk.Frame):
         self.Outputbox.delete(0.0, 'end')
         self.Outputbox.insert(0.0, cyphertext)
 
-        pass
+        
     def AkilsCypher(self):  
-        plain = self.InputBox.get("1.0", "end-1c")
+        plain = self.InputBox.get(0.0, "end")
         cyphertext = akils_cyphur(plain)
         self.Outputbox.delete("1.0", "end")
         self.Outputbox.insert("1.0", cyphertext)
 
+    def displayfreqanalysis(self):
+        x = list('abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ .,:;[]{}@~!£$%^&*()123456789-=+_/`¬')
+        y = []
+        for i in range (0,88):
+            y.append(0)
+
+        encryptedtext = self.Outputbox.get(0.0,"end")
+
+        for i in encryptedtext:
+            try:
+                characterindex = x.index(i)
+                y[characterindex] = y[characterindex] + 1
+            except:
+                pass
+        
+        matplotlib.pyplot.bar(x,y)
+        pyplot.show()
 
 
-        pass
+
+
+
+       
+
+        
+
+
+
+
+        
     
 
 
